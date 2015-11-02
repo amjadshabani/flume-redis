@@ -32,23 +32,22 @@ public class CustomJsonSerializer implements Serializer {
 		// Adding the body to the object So we could deserialize it
 		String bodyStr = new String(event.getBody());
 
-		// jsonObject.addProperty("body", bodyStr);
-/*		Map<String, String> bodyMap = new HashMap<String, String>();
+//		 jsonObject.addProperty("body", bodyStr);
+		//String correctedBodyStr = bodyStr.replaceAll("\\}", "");
+		//Map<String, String> bodyMap = new HashMap<String, String>();
 		String[] tags = bodyStr.split(",");
 		for (String tag : tags) {
 			String[] subTag = tag.split(":");
-			bodyMap.put(subTag[0], subTag[1]);
+			//bodyMap.put(subTag[0].replaceAll("\\{}", ""), subTag[1]);
+			jsonObject.addProperty(subTag[0].replaceAll("\\{}", ""), subTag[1].replaceAll("\\{}", ""));
 			logger.debug(tag);
 		}
-*/		
-		Gson gsonBody = new Gson();
-		String strEvent = gsonBody.toJson(bodyStr);
-		String correctedEvent = strEvent.replaceAll("\\","" ).replaceAll("\\\\", "");
 		
-		
-		
-		jsonObject.addProperty("body", correctedEvent);
-		return jsonObject.toString().getBytes();
+		//String strEvent = gsonBody.toJson(bodyStr);
+		//String correctedEvent = strEvent.replaceAll("\\","" ).replaceAll("\\\\", "");
+
+		//jsonObject.addProperty("body", bodyStr.replaceAll("\\\\", ""));
+		return jsonObject.toString().replaceAll("\\{}", "").getBytes();
 	}
 
 	/*
